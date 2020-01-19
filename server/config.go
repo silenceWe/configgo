@@ -27,7 +27,7 @@ var p *Person
 var cfg *ini.File
 var filePath string
 
-func LoadConfig(source string,serveAddr string) {
+func LoadConfig(source string, serveAddr string) {
 	var err error
 	p = new(Person)
 	filePath = source
@@ -56,7 +56,7 @@ func startApi(addr string) {
 		//WriteTimeout:      5 * time.Second,
 		Handler: g,
 	}
-	addEventMap("Note.Tkc", onNoteTkcChange)
+	AddEventMap("Note.Tkc", onNoteTkcChange)
 	if err := srv.ListenAndServe(); err != http.ErrServerClosed {
 		panic("listen error:" + err.Error())
 	}
