@@ -1,6 +1,9 @@
 package common
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+)
 
 func TestTable() {
 	head := []string{"col1", "col2", "col3"}
@@ -41,77 +44,99 @@ func PrintTable(head []string, rows [][]string) {
 	}
 
 	// head1
+	var printBuf bytes.Buffer
 	for k, v := range colMaxWidth {
 		if k == 0 {
-			fmt.Print("┌")
+			printBuf.WriteString("┌")
 		}
-		fmt.Print(printn("─", v))
+		printBuf.WriteString(printn("─", v))
 		if k == len(colMaxWidth)-1 {
-			fmt.Print("┐\n")
+			printBuf.WriteString("┐")
+			printLine(printBuf.String())
+			printBuf.Reset()
 		} else {
-			fmt.Print("┬")
+			printBuf.WriteString("┬")
 		}
 	}
+	printBuf.Reset()
 	// head2
 	for k := range head {
 		if k == 0 {
-			fmt.Print("│")
+			printBuf.WriteString("│")
 		}
-		fmt.Print(fillBlank(head[k], colMaxWidth[k]))
-		fmt.Print("│")
+		printBuf.WriteString(fillBlank(head[k], colMaxWidth[k]))
+		printBuf.WriteString("│")
 	}
-	fmt.Println()
+	printLine(printBuf.String())
+	printBuf.Reset()
+
 	// head3
 	for k, v := range colMaxWidth {
 		if k == 0 {
-			fmt.Print("├")
+			printBuf.WriteString("├")
 		}
-		fmt.Print(printn("─", v))
+		printBuf.WriteString(printn("─", v))
 		if k == len(colMaxWidth)-1 {
-			fmt.Print("┤\n")
+			printBuf.WriteString("┤")
+			printLine(printBuf.String())
+			printBuf.Reset()
 		} else {
-			fmt.Print("┼")
+			printBuf.WriteString("┼")
 		}
 	}
+	printBuf.Reset()
 
-	for rowIndex, row := range rows {
+	// print rows
+	for _, row := range rows {
 		for colIndex, _ := range colMaxWidth {
-			fmt.Print("│")
+			printBuf.WriteString("│")
 			if len(row)-1 >= colIndex {
-				fmt.Print(fillBlank(row[colIndex], colMaxWidth[colIndex]))
+				printBuf.WriteString(fillBlank(row[colIndex], colMaxWidth[colIndex]))
 			} else {
-				fmt.Print(printn(" ", colMaxWidth[colIndex]))
+				printBuf.WriteString(printn(" ", colMaxWidth[colIndex]))
 			}
 		}
-		fmt.Println("│")
+		printBuf.WriteString("│")
+		printLine(printBuf.String())
+		printBuf.Reset()
 
-		if (rowIndex+1)%3 == 0 && rowIndex != len(rows)-1 {
-			for k, v := range colMaxWidth {
-				if k == 0 {
-					fmt.Print("├")
-				}
-				fmt.Print(printn("─", v))
-				if k == len(colMaxWidth)-1 {
-					fmt.Print("┤\n")
-				} else {
-					fmt.Print("┼")
-				}
+		for k, v := range colMaxWidth {
+			if k == 0 {
+				printBuf.WriteString("├")
+			}
+			printBuf.WriteString(printn("─", v))
+			if k >= len(colMaxWidth)-1 {
+				printBuf.WriteString("┤")
+				printLine(printBuf.String())
+				printBuf.Reset()
+			} else {
+				printBuf.WriteString("┼")
 			}
 		}
 	}
 
+	printBuf.Reset()
 	// tail
 	for k, v := range colMaxWidth {
 		if k == 0 {
-			fmt.Print("└")
+			printBuf.WriteString("└")
 		}
-		fmt.Print(printn("─", v))
+		printBuf.WriteString(printn("─", v))
 		if k == len(colMaxWidth)-1 {
-			fmt.Print("┘\n")
+			printBuf.WriteString("┘")
+			// tailBuf.WriteString("┘\n")
+			printLine(printBuf.String())
+			printBuf.Reset()
 		} else {
-			fmt.Print("┴")
+			printBuf.WriteString("┴")
 		}
 	}
+	// fmt.Println(tailBuf.String())
+}
+
+func printLine(s string) {
+	// loggo.Infoln(s)
+	fmt.Println(s)
 }
 
 func printn(s string, n int) string {

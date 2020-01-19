@@ -14,6 +14,7 @@ import (
 
 	"github.com/go-ini/ini"
 	"github.com/silenceWe/configgo/client/common"
+	"github.com/silenceWe/loggo/loggo"
 )
 
 const (
@@ -33,6 +34,7 @@ func main() {
 	flag.StringVar(&o, "o", "get", "opertion")
 	flag.StringVar(&sec, "sec", "", "section")
 	flag.Parse()
+	loggo.InitDefaultLog(&loggo.LoggerOption{StdOut: true, Level: loggo.ALL})
 	switch o {
 	case "init":
 		buildTemplate(f)
@@ -93,7 +95,7 @@ func printGet() {
 		rows = append(rows, row)
 	}
 
-	fmt.Println("Nodes:")
+	loggo.Infoln("Nodes:")
 	common.PrintTable(head, rows)
 	fmt.Println("Section:", param.Operations.Get)
 	get(param.Operations.Get, "")
@@ -292,7 +294,7 @@ func httpGet(url string) []byte {
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("get error:", err.Error())
-		ox.Exit(0)
+		os.Exit(0)
 	}
 
 	defer resp.Body.Close()
