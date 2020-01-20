@@ -7,9 +7,59 @@ package main
  */
 
 import (
+	"fmt"
+	"strconv"
+	"time"
+
 	"github.com/silenceWe/configgo/server"
 )
 
 func main() {
-	server.LoadConfig("./cfg_base.ini", ":8080")
+	c := &AllConfig{}
+	server.LoadConfig(c, "./cfg_base.ini", ":8080")
+	server.AddEventMap("Note.Tkc", onNoteTkcChange)
+}
+
+type AllConfig struct {
+	Configgo server.Configgo
+}
+
+func onNoteTkcChange(val string) {
+	tkc, err := strconv.ParseInt(val, 10, 64)
+	if err != nil {
+		panic(err)
+	}
+	printTk(tkc)
+}
+
+var tk *time.Ticker
+
+func printTk(tkc int64) {
+	fmt.Println("tkc:", tkc)
+	if tk != nil {
+		tk.Stop()
+	}
+	tk = time.NewTicker(time.Duration(tkc * int64(time.Second)))
+	go func() {
+		for {
+			select {
+			case <-tk.C:
+				fmt.Println("tk:", time.Now().String())
+			}
+		}
+	}()
+}
+
+type Note struct {
+	Tkc     int
+	Content string
+	Cities  []string
+}
+type Person struct {
+	Name string
+	Age  int `ini:"age"`
+	Male bool
+	Born time.Time
+	Note
+	Created time.Time `ini:"-"`
 }

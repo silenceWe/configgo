@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	KV_SEPARATOR        = "=>"
+	KV_SEPARATOR        = "->"
 	DEFAULT_CONFIG_FILE = "./template.ini"
 )
 
@@ -97,8 +97,8 @@ func printGet() {
 
 	loggo.Infoln("Nodes:")
 	common.PrintTable(head, rows)
-	fmt.Println("Section:", param.Operations.Get)
-	get(param.Operations.Get, "")
+	fmt.Println("Section:", param.Operations.Sec)
+	get(param.Operations.Sec, "")
 }
 func printSet() {
 	fmt.Printf("Will set the following values:\n")
@@ -218,7 +218,7 @@ type Nodes struct {
 	Info []string `ini:",,allowshadow"`
 }
 type Operations struct {
-	Get string
+	Sec string
 	Set []string `ini:",,allowshadow"`
 }
 
