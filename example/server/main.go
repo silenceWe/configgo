@@ -11,19 +11,21 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/silenceWe/configgo/server"
+	"github.com/silenceWe/configgo"
 )
 
 func main() {
-	c := &AllConfig{}
-	server.LoadConfig(c, "./cfg_base.ini", ":8080")
-	server.AddEventMap("Note.Tkc", onNoteTkcChange)
+	c := AllConfig{}
+	configgo.LoadConfig(&c, "./cfg_base.ini", ":8080")
+	configgo.AddEventMap("Note.Tkc", onNoteTkcChange)
 }
 
 type AllConfig struct {
-	Configgo server.Configgo
+	Configgo configgo.Configgo
 }
-
+func (p *AllConfig)GetConfiggo() *configgo.Configgo{
+	return &p.Configgo
+}
 func onNoteTkcChange(val string) {
 	tkc, err := strconv.ParseInt(val, 10, 64)
 	if err != nil {
