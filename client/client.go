@@ -34,6 +34,7 @@ func main() {
 	flag.StringVar(&o, "o", "get", "opertion")
 	flag.StringVar(&sec, "sec", "", "section")
 	flag.Parse()
+
 	loggo.InitDefaultLog(&loggo.LoggerOption{StdOut: true, Level: loggo.ALL})
 	switch o {
 	case "init":
@@ -49,16 +50,22 @@ func main() {
 		}
 	}
 }
-func buildTemplate(path string) {
+func fileExist(path string) bool {
 	if _, err := os.Stat(path); err != nil {
 		if os.IsNotExist(err) {
 			// file does not exist
+			return false
 		} else {
 			// other error
 			panic("check template file error:" + err.Error())
 		}
 	} else {
 		//exist
+		return true
+	}
+}
+func buildTemplate(path string) {
+	if fileExist(path) {
 		t := time.Now().Format("2006-01-02T15-04-05")
 		fmt.Printf("There is a file named %s,it will be moved to %s_%s\n", path, path, t)
 		if err := os.Rename(path, path+"_"+t); err != nil {
@@ -71,7 +78,8 @@ func buildTemplate(path string) {
 	ini.ReflectFromWithMapper(cfg, p, ini.TitleUnderscore)
 	cfg.SaveTo(path)
 }
-func printGet() {
+
+func loadParam() {
 	param = new(Param)
 	cfg, err := ini.ShadowLoad(f)
 	if err != nil {
@@ -83,6 +91,9 @@ func printGet() {
 		panic("Map config error:" + err.Error())
 	}
 
+}
+func printGet() {
+	loadParam()
 	head := []string{"Name", "Addr"}
 	rows := [][]string{}
 	for _, v := range param.Nodes.Info {
