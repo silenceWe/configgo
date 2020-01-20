@@ -174,7 +174,7 @@ func set(c *gin.Context) {
 
 var changeWatcherMap = make(map[string]func(string))
 
-func AddEventMap(key string, fn func(string)) {
+func AddWatcher(key string, fn func(string)) {
 	changeWatcherMap[key] = fn
 }
 

@@ -17,13 +17,14 @@ import (
 func main() {
 	c := AllConfig{}
 	configgo.LoadConfig(&c, "./cfg_base.ini", ":8080")
-	configgo.AddEventMap("Note.Tkc", onNoteTkcChange)
+	configgo.AddWatcher("Note.Tkc", onNoteTkcChange)
 }
 
 type AllConfig struct {
 	Configgo configgo.Configgo
 }
-func (p *AllConfig)GetConfiggo() *configgo.Configgo{
+
+func (p *AllConfig) GetConfiggo() *configgo.Configgo {
 	return &p.Configgo
 }
 func onNoteTkcChange(val string) {
@@ -56,12 +57,4 @@ type Note struct {
 	Tkc     int
 	Content string
 	Cities  []string
-}
-type Person struct {
-	Name string
-	Age  int `ini:"age"`
-	Male bool
-	Born time.Time
-	Note
-	Created time.Time `ini:"-"`
 }
