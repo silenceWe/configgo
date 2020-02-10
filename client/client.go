@@ -55,10 +55,8 @@ func fileExist(path string) bool {
 		if os.IsNotExist(err) {
 			// file does not exist
 			return false
-		} else {
-			// other error
-			panic("check template file error:" + err.Error())
 		}
+		panic("check template file error:" + err.Error())
 	} else {
 		//exist
 		return true
@@ -130,7 +128,7 @@ func printSet() {
 			if _, ok := headMap[key]; !ok {
 				headMap[key] = true
 			}
-			for configIndex, _ := range configs {
+			for configIndex := range configs {
 				config := configs[configIndex]
 				if config.change == nil {
 					config.change = make(map[string]string)
@@ -259,7 +257,7 @@ func get(sec, key string) {
 
 	headMap := make(map[string]bool)
 
-	for k, _ := range configs {
+	for k := range configs {
 		configs[k].data = make(map[string]string)
 		var url string
 		if key == "" {
@@ -269,12 +267,12 @@ func get(sec, key string) {
 		}
 		res := httpGet(url)
 		json.Unmarshal(res, &configs[k].data)
-		for k, _ := range configs[k].data {
+		for k := range configs[k].data {
 			headMap[k] = true
 		}
 	}
 	head := []string{}
-	for k, _ := range headMap {
+	for k := range headMap {
 		head = append(head, k)
 	}
 
