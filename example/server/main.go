@@ -16,12 +16,13 @@ import (
 
 func main() {
 	c := AllConfig{}
+	configgo.AddWatcher("note", "tkc", onNoteTkcChange)
 	configgo.LoadConfig(&c, "./cfg_base.ini", ":8080")
-	configgo.AddWatcher("Note.Tkc", onNoteTkcChange)
 }
 
 type AllConfig struct {
 	Configgo configgo.Configgo
+	Note     Note
 }
 
 func (p *AllConfig) GetConfiggo() *configgo.Configgo {

@@ -19,11 +19,6 @@ import (
 	"github.com/go-ini/ini"
 )
 
-/*
- * @Description:
- * @Author: chenwei
- * @Date: 2020-01-15 17:12:09
- */
 var baseConfig BaseConfig
 var cfg *ini.File
 var filePath string
@@ -46,7 +41,7 @@ func LoadConfig(bc BaseConfig, source string, serveAddr string) {
 		panic("Map config error:" + err.Error())
 	}
 	checkConfig()
-	fmt.Printf("config:%+v\n", baseConfig.GetConfiggo().Name)
+	fmt.Printf("config node name:%+v\n", baseConfig.GetConfiggo().Name)
 	startApi(serveAddr)
 }
 
@@ -174,8 +169,11 @@ func set(c *gin.Context) {
 
 var changeWatcherMap = make(map[string]func(string))
 
-func AddWatcher(key string, fn func(string)) {
-	changeWatcherMap[key] = fn
+func AddWatcher(sec, key string, fn func(string)) {
+	sec = upperCaseFirstLetter(sec)
+	key = upperCaseFirstLetter(key)
+	watcherKey := fmt.Sprintf("%s.%s", sec, key)
+	changeWatcherMap[watcherKey] = fn
 }
 
 func onChange(sec, key, val string) {

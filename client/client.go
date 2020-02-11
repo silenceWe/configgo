@@ -27,7 +27,7 @@ var o string
 var f string
 var param *Param
 var configs []*NodeConfig
-var configMap map[string]*NodeConfig
+var nodeMap map[string]*NodeConfig
 
 func main() {
 	flag.StringVar(&f, "f", DEFAULT_CONFIG_FILE, "section")
@@ -120,34 +120,34 @@ func printSet() {
 		v = strings.Replace(v, " ", "", -1)
 		parts := strings.Split(v, KV_SEPARATOR)
 		if len(parts) != 2 {
-			panic("set format error")
+			loggo.Errorln("set format error. example : 'set = tkc -> 1'")
+			os.Exit(0)
 		}
-		secKeyParts := strings.Split(parts[0], ".")
-		ls := len(secKeyParts)
-		if ls == 1 {
-			key := parts[0]
-			val := parts[1]
-			if _, ok := headMap[key]; !ok {
-				headMap[key] = true
-			}
-			for configIndex, _ := range configs {
-				config := configs[configIndex]
+		loggo.Infofn("parts:%+v", parts)
+		nodeKeyParts := strings.Split(parts[0], ".")
+		ls := len(nodeKeyParts)
+		if ls != 2 {
+			fmt.Println("set format error")
+			os.Exit(0)
+		}
+		node := nodeKeyParts[0]
+		key := nodeKeyParts[1]
+		val := parts[1]
+		if _, ok := headMap[key]; !ok {
+			headMap[key] = true
+		}
+
+		if node == "ALL" || node == "all" || node == "All" {
+			for k := range nodeMap {
+				config := nodeMap[k]
 				if config.change == nil {
 					config.change = make(map[string]string)
 				}
 				config.change[key] = val
-				fmt.Printf("change:%+v\n", config.change)
+				head = append(head, key)
 			}
-			head = append(head, key)
-		} else if ls == 2 {
-			node := secKeyParts[0]
-			key := secKeyParts[1]
-			val := parts[1]
-			if _, ok := headMap[key]; !ok {
-				headMap[key] = true
-			}
-
-			config, ok := configMap[node]
+		} else {
+			config, ok := nodeMap[node]
 			if !ok {
 				panic("node not found")
 			}
@@ -155,51 +155,54 @@ func printSet() {
 				config.change = make(map[string]string)
 			}
 			config.change[key] = val
-			fmt.Printf("change:%+v\n", config.change)
 			head = append(head, key)
-		} else {
-			panic("key format error")
 		}
 	}
 
 	sort.Sort(sort.StringSlice(head))
 	head = append([]string{"NodeName"}, head...)
 
+	change := false
 	rows := [][]string{}
 	for _, c := range configs {
 		row := []string{c.name}
 		for k, vv := range head {
 			if k > 0 {
-				newVal, ok := c.change[vv]
-				if ok {
-					row = append(row, fmt.Sprintf("%s => %s", c.data[vv], newVal))
+				newVal := c.change[vv]
+				cell := fmt.Sprintf("%s => %s", c.data[vv], newVal)
+				fmt.Println(cell)
+				if c.data[vv] == newVal {
+					cell += "[Not Change]"
 				} else {
-					row = append(row, "[Not Change]")
+					if newVal != "" {
+						change = true
+					}
 				}
+				row = append(row, cell)
+				// if ok {
+				// 	row = append(row, fmt.Sprintf("%s => %s", c.data[vv], newVal))
+				// } else {
+				// 	row = append(row, "[Not Change]")
+				// }
 			}
 		}
 		rows = append(rows, row)
 	}
 	configgo.PrintTable(head, rows)
+	if !change {
+		fmt.Println("Nothing changed!")
+		return
+	}
 	if confirm() {
 		do()
 	}
 }
 func do() {
-	for _, v := range param.Operations.Set {
-		v = strings.Replace(v, " ", "", -1)
-		parts := strings.Split(v, KV_SEPARATOR)
-		if len(parts) != 2 {
-			panic("set format error")
+	for configIndex, _ := range configs {
+		config := configs[configIndex]
+		for k, v := range config.change {
+			set(param.Operations.Sec, k, v)
 		}
-		secKeyParts := strings.Split(parts[0], ".")
-		if len(secKeyParts) != 2 {
-			panic("key format error")
-		}
-		sec := secKeyParts[0]
-		key := secKeyParts[1]
-		val := parts[1]
-		set(sec, key, val)
 	}
 }
 
@@ -211,7 +214,7 @@ func confirm() bool {
 		input, _ = f.ReadString('\n')
 		switch input {
 		case "Y\n":
-			fmt.Println("ok")
+			loggo.Infoln("Confirmed")
 			return true
 		default:
 			fmt.Println("cancel")
@@ -246,7 +249,7 @@ type NodeConfig struct {
 
 func get(sec, key string) {
 	configs = make([]*NodeConfig, len(param.Nodes.Info))
-	configMap = make(map[string]*NodeConfig)
+	nodeMap = make(map[string]*NodeConfig)
 	for k, v := range param.Nodes.Info {
 		v = strings.Replace(v, " ", "", -1)
 		parts := strings.Split(v, KV_SEPARATOR)
@@ -254,7 +257,7 @@ func get(sec, key string) {
 			panic("node format error")
 		}
 		configs[k] = &NodeConfig{name: parts[0], addr: parts[1]}
-		configMap[parts[0]] = configs[k]
+		nodeMap[parts[0]] = configs[k]
 	}
 
 	headMap := make(map[string]bool)
@@ -307,14 +310,14 @@ func httpGet(url string) []byte {
 	url += "&p=" + param.Password
 	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println("get error:", err.Error())
+		loggo.Errorln("get error:", err.Error())
 		os.Exit(0)
 	}
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("ioutil.ReadAll error:", err.Error())
+		loggo.Errorln("ioutil.ReadAll error:", err.Error())
 	}
 	res := encode(body, []byte(param.Token))
 	return res

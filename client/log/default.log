@@ -16,3 +16,154 @@
 [32;1m[2020-01-20 16:11:20.217|INFO ] Nodes: [0m
 [32;1m[2020-01-20 16:11:29.394|INFO ] Log rotate cron:	0 0 0 * * * [0m
 [32;1m[2020-01-20 16:11:29.394|INFO ] Nodes: [0m
+[32;1m[2020-02-11 16:45:54.365|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 16:45:54.367|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:06:15.649|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:06:15.649|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:06:15.650|INFO ] lines:1 [0m
+[32;1m[2020-02-11 17:06:15.655|INFO ] lines:1 [0m
+[32;1m[2020-02-11 17:07:20.613|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:07:20.614|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:07:20.614|INFO ] reset [0m
+[32;1m[2020-02-11 17:07:20.615|INFO ] reset [0m
+[32;1m[2020-02-11 17:08:40.467|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:08:40.467|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:08:40.467|INFO ] print row [0m
+[32;1m[2020-02-11 17:08:40.468|INFO ] print row [0m
+[32;1m[2020-02-11 17:09:42.490|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:09:42.490|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:09:42.490|INFO ] print row [0m
+[32;1m[2020-02-11 17:09:42.491|INFO ] print row [0m
+[32;1m[2020-02-11 17:09:51.429|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:09:51.429|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:10:27.499|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:10:27.499|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:11:32.926|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:11:32.926|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:12:47.486|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:12:47.486|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:13:11.474|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:13:11.475|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:13:24.306|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:13:24.307|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:14:16.242|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:14:16.243|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:16:23.162|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:16:23.162|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:16:54.062|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:16:54.062|INFO ] Nodes: [0m
+[35;1m[2020-02-11 17:16:54.063|ERROR] get error:	Get http://127.0.0.1:8080/get?sec=note&p=111: dial tcp 127.0.0.1:8080: connect: connection refused [0m
+[32;1m[2020-02-11 17:17:51.639|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:17:51.639|INFO ] Nodes: [0m
+[35;1m[2020-02-11 17:17:51.640|ERROR] get error:	Get http://127.0.0.1:8080/get?sec=note&p=111: dial tcp 127.0.0.1:8080: connect: connection refused [0m
+[32;1m[2020-02-11 17:17:57.771|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:17:57.771|INFO ] Nodes: [0m
+[35;1m[2020-02-11 17:17:57.772|ERROR] get error:	Get http://127.0.0.1:8080/get?sec=note&p=111: dial tcp 127.0.0.1:8080: connect: connection refused [0m
+[32;1m[2020-02-11 17:19:12.334|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:19:12.334|INFO ] Nodes: [0m
+[35;1m[2020-02-11 17:19:12.335|ERROR] get error:	Get http://127.0.0.1:8080/get?sec=note&p=111: dial tcp 127.0.0.1:8080: connect: connection refused [0m
+[31;1m[2020-02-11 17:19:12.336|FATAL] set format error. example : 'set = tkc -> 1' [0m
+[32;1m[2020-02-11 17:19:41.833|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:19:41.833|INFO ] Nodes: [0m
+[35;1m[2020-02-11 17:19:41.834|ERROR] get error:	Get http://127.0.0.1:8080/get?sec=note&p=111: dial tcp 127.0.0.1:8080: connect: connection refused [0m
+[35;1m[2020-02-11 17:19:41.835|ERROR] set format error. example : 'set = tkc -> 1' [0m
+[32;1m[2020-02-11 17:20:00.467|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:20:00.467|INFO ] Nodes: [0m
+[35;1m[2020-02-11 17:20:00.467|ERROR] get error:	Get http://127.0.0.1:8080/get?sec=note&p=111: dial tcp 127.0.0.1:8080: connect: connection refused [0m
+[32;1m[2020-02-11 17:21:01.361|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:21:01.361|INFO ] Nodes: [0m
+[35;1m[2020-02-11 17:21:01.362|ERROR] get error:	Get http://127.0.0.1:8080/get?sec=note&p=111: dial tcp 127.0.0.1:8080: connect: connection refused [0m
+[32;1m[2020-02-11 17:21:46.338|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:21:46.339|INFO ] Nodes: [0m
+[35;1m[2020-02-11 17:21:46.339|ERROR] get error:	Get http://127.0.0.1:8080/get?sec=note&p=111: dial tcp 127.0.0.1:8080: connect: connection refused [0m
+[35;1m[2020-02-11 17:21:47.781|ERROR] key format error [0m
+[32;1m[2020-02-11 17:22:35.725|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:22:35.725|INFO ] Nodes: [0m
+[35;1m[2020-02-11 17:22:35.726|ERROR] get error:	Get http://127.0.0.1:8080/get?sec=note&p=111: dial tcp 127.0.0.1:8080: connect: connection refused [0m
+[32;1m[2020-02-11 17:23:59.789|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:23:59.789|INFO ] Nodes: [0m
+[35;1m[2020-02-11 17:23:59.789|ERROR] get error:	Get http://127.0.0.1:8080/get?sec=note&p=111: dial tcp 127.0.0.1:8080: connect: connection refused [0m
+[32;1m[2020-02-11 17:24:13.127|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:24:13.128|INFO ] Nodes: [0m
+[35;1m[2020-02-11 17:24:13.128|ERROR] get error:	Get http://127.0.0.1:8080/get?sec=note&p=111: dial tcp 127.0.0.1:8080: connect: connection refused [0m
+[32;1m[2020-02-11 17:24:36.645|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:24:36.645|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:25:11.991|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:25:11.991|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:25:51.417|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:25:51.417|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:27:42.674|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:27:42.674|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:27:42.678|INFO ] configMap:map[server1:0xc00020f110] [0m
+[32;1m[2020-02-11 17:27:57.880|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:27:57.881|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:27:57.882|INFO ] configMap:map[server1:0xc00020cd50] [0m
+[32;1m[2020-02-11 17:27:57.882|INFO ] node:note [0m
+[32;1m[2020-02-11 17:28:18.541|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:28:18.541|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:28:18.544|INFO ] configMap:map[server1:0xc000238cc0] [0m
+[32;1m[2020-02-11 17:28:18.544|INFO ] node:server1 [0m
+[32;1m[2020-02-11 17:28:45.905|INFO ] Confirmed [0m
+[32;1m[2020-02-11 17:28:45.911|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:29:54.815|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:29:54.816|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:29:54.817|INFO ] configMap:map[server1:0xc00021cc30] [0m
+[32;1m[2020-02-11 17:29:54.817|INFO ] node:server1 [0m
+[32;1m[2020-02-11 17:30:01.498|INFO ] Confirmed [0m
+[32;1m[2020-02-11 17:30:01.501|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:33:36.626|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:33:36.626|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:33:36.629|INFO ] parts:[server1.Tkc 1] [0m
+[32;1m[2020-02-11 17:33:36.629|INFO ] nodeMap:map[server1:0xc000246ab0] [0m
+[32;1m[2020-02-11 17:33:36.629|INFO ] nodeName:server1 [0m
+[32;1m[2020-02-11 17:51:14.753|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:51:14.754|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:51:14.755|INFO ] parts:[server1.Tkc 1] [0m
+[32;1m[2020-02-11 17:51:14.755|INFO ] nodeMap:map[server1:0xc00022ac30] [0m
+[32;1m[2020-02-11 17:51:14.755|INFO ] node:server1 [0m
+[32;1m[2020-02-11 17:51:16.502|INFO ] Confirmed [0m
+[32;1m[2020-02-11 17:51:16.503|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:53:29.253|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:53:29.253|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:53:29.255|INFO ] parts:[server1.Tkc 1] [0m
+[32;1m[2020-02-11 17:53:29.255|INFO ] nodeMap:map[server1:0xc0001a78f0] [0m
+[32;1m[2020-02-11 17:53:29.255|INFO ] node:server1 [0m
+[32;1m[2020-02-11 17:53:31.050|INFO ] Confirmed [0m
+[32;1m[2020-02-11 17:53:31.051|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:54:33.807|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 17:54:33.807|INFO ] Nodes: [0m
+[32;1m[2020-02-11 17:54:33.811|INFO ] parts:[server1.Tkc 1] [0m
+[32;1m[2020-02-11 17:54:33.811|INFO ] nodeMap:map[server1:0xc00020ec60] [0m
+[32;1m[2020-02-11 17:54:33.811|INFO ] node:server1 [0m
+[32;1m[2020-02-11 17:54:35.295|INFO ] Confirmed [0m
+[32;1m[2020-02-11 17:54:35.296|INFO ] Nodes: [0m
+[32;1m[2020-02-11 18:31:38.203|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 18:31:38.204|INFO ] Nodes: [0m
+[32;1m[2020-02-11 18:31:38.206|INFO ] parts:[all.Tkc 1] [0m
+[32;1m[2020-02-11 18:31:38.206|INFO ] nodeMap:map[server1:0xc00019ffb0] [0m
+[32;1m[2020-02-11 18:31:38.206|INFO ] node:all [0m
+[32;1m[2020-02-11 18:31:40.575|INFO ] Confirmed [0m
+[32;1m[2020-02-11 18:31:40.576|INFO ] Nodes: [0m
+[32;1m[2020-02-11 18:31:44.012|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 18:31:44.012|INFO ] Nodes: [0m
+[32;1m[2020-02-11 18:31:44.013|INFO ] parts:[all.Tkc 1] [0m
+[32;1m[2020-02-11 18:31:44.013|INFO ] nodeMap:map[server1:0xc00020ecc0] [0m
+[32;1m[2020-02-11 18:31:44.013|INFO ] node:all [0m
+[32;1m[2020-02-11 18:35:48.541|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 18:35:48.541|INFO ] Nodes: [0m
+[32;1m[2020-02-11 18:35:48.542|INFO ] parts:[all.tkc 1] [0m
+[32;1m[2020-02-11 18:40:19.451|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 18:40:19.451|INFO ] Nodes: [0m
+[32;1m[2020-02-11 18:40:19.452|INFO ] parts:[all.tkc 1] [0m
+[32;1m[2020-02-11 18:43:54.757|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 18:43:54.757|INFO ] Nodes: [0m
+[32;1m[2020-02-11 18:43:54.759|INFO ] parts:[all.tkc 1] [0m
+[32;1m[2020-02-11 18:43:54.759|INFO ] Nodes: [0m
+[32;1m[2020-02-11 18:44:01.187|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 18:44:01.188|INFO ] Nodes: [0m
+[32;1m[2020-02-11 18:44:01.189|INFO ] parts:[all.tkc 1] [0m
+[32;1m[2020-02-11 18:44:01.189|INFO ] Nodes: [0m
+[32;1m[2020-02-11 18:44:49.516|INFO ] Log rotate cron:	0 0 0 * * * [0m
+[32;1m[2020-02-11 18:44:49.516|INFO ] Nodes: [0m
+[32;1m[2020-02-11 18:44:49.517|INFO ] parts:[all.tkc 1] [0m
+[32;1m[2020-02-11 18:44:49.517|INFO ] Nodes: [0m
