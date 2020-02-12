@@ -14,22 +14,18 @@ import (
 	"os"
 	"reflect"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-ini/ini"
 )
 
-var baseConfig BaseConfig
+var baseConfig *Configgo
 var cfg *ini.File
 var filePath string
 
-type BaseConfig interface {
-	GetConfiggo() *Configgo
-}
-
-func LoadConfig(bc BaseConfig, source string, serveAddr string) {
+func LoadConfig(bc interface{}, source string, serveAddr string) {
 	var err error
-	baseConfig = bc
 	filePath = source
 	cfg, err = ini.Load(source)
 	if err != nil {
@@ -37,20 +33,23 @@ func LoadConfig(bc BaseConfig, source string, serveAddr string) {
 	}
 
 	cfg.NameMapper = ini.TitleUnderscore
-	if err := cfg.MapTo(baseConfig); err != nil {
+	if err := cfg.MapTo(bc); err != nil {
 		panic("Map config error:" + err.Error())
 	}
+
+	configgo := reflect.ValueOf(bc).Elem().FieldByName("Configgo")
+	baseConfig = configgo.Interface().(*Configgo)
 	checkConfig()
-	fmt.Printf("config node name:%+v\n", baseConfig.GetConfiggo().Name)
+	fmt.Printf("config node name:%+v\n", baseConfig.Name)
 	startApi(serveAddr)
 }
 
 func checkConfig() bool {
-	if baseConfig.GetConfiggo().Password == "" {
+	if baseConfig.Password == "" {
 		fmt.Println("Please set the config password")
 		os.Exit(0)
 	}
-	if baseConfig.GetConfiggo().Token == "" {
+	if baseConfig.Token == "" {
 		fmt.Println("Please set the config token")
 		os.Exit(0)
 	}
@@ -64,12 +63,12 @@ func startApi(addr string) {
 	g.GET("/set", set)
 
 	srv := &http.Server{
-		Addr: addr,
-		//ReadTimeout:       30 * time.Second,
-		//ReadHeaderTimeout: 10 * time.Second,
-		//IdleTimeout:       200 * time.Microsecond,
-		//WriteTimeout:      5 * time.Second,
-		Handler: g,
+		Addr:              addr,
+		ReadTimeout:       30 * time.Second,
+		ReadHeaderTimeout: 10 * time.Second,
+		IdleTimeout:       200 * time.Microsecond,
+		WriteTimeout:      5 * time.Second,
+		Handler:           g,
 	}
 	if err := srv.ListenAndServe(); err != http.ErrServerClosed {
 		panic("listen error:" + err.Error())
@@ -80,7 +79,7 @@ func startApi(addr string) {
 func validPassword() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		password := c.Query("p")
-		if password == "" || password != baseConfig.GetConfiggo().Password {
+		if password == "" || password != baseConfig.Password {
 			c.JSON(403, "")
 			c.Abort()
 			return
@@ -107,7 +106,7 @@ func get(c *gin.Context) {
 		if err != nil {
 			panic("parse json error:" + err.Error())
 		}
-		encodeStr := string(encode([]byte(valJson), []byte(baseConfig.GetConfiggo().Token)))
+		encodeStr := string(encode([]byte(valJson), []byte(baseConfig.Token)))
 		c.String(200, encodeStr)
 	} else {
 		val := cfg.Section(sec).Key(key).String()

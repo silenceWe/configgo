@@ -45,8 +45,9 @@ func main() {
 	case "set":
 		printGet()
 		if param.Operations.Set != nil && len(param.Operations.Set) != 0 {
-			printSet()
-			printGet()
+			if printSet() {
+				printGet()
+			}
 		}
 	}
 }
@@ -111,7 +112,7 @@ func printGet() {
 	fmt.Println("Section:", param.Operations.Sec)
 	get(param.Operations.Sec, "")
 }
-func printSet() {
+func printSet() bool {
 	fmt.Printf("Will set the following values:\n")
 
 	head := []string{}
@@ -123,7 +124,6 @@ func printSet() {
 			loggo.Errorln("set format error. example : 'set = tkc -> 1'")
 			os.Exit(0)
 		}
-		loggo.Infofn("parts:%+v", parts)
 		nodeKeyParts := strings.Split(parts[0], ".")
 		ls := len(nodeKeyParts)
 		if ls != 2 {
@@ -168,22 +168,21 @@ func printSet() {
 		row := []string{c.name}
 		for k, vv := range head {
 			if k > 0 {
+				oldVal, ok := c.data[vv]
+				if !ok {
+					row = append(row, "(Not Exists])")
+					continue
+				}
 				newVal := c.change[vv]
-				cell := fmt.Sprintf("%s => %s", c.data[vv], newVal)
-				fmt.Println(cell)
+				cell := fmt.Sprintf("%s => %s", oldVal, newVal)
 				if c.data[vv] == newVal {
-					cell += "[Not Change]"
+					cell += "(Not Change)"
 				} else {
 					if newVal != "" {
 						change = true
 					}
 				}
 				row = append(row, cell)
-				// if ok {
-				// 	row = append(row, fmt.Sprintf("%s => %s", c.data[vv], newVal))
-				// } else {
-				// 	row = append(row, "[Not Change]")
-				// }
 			}
 		}
 		rows = append(rows, row)
@@ -191,11 +190,13 @@ func printSet() {
 	configgo.PrintTable(head, rows)
 	if !change {
 		fmt.Println("Nothing changed!")
-		return
+		return false
 	}
 	if confirm() {
 		do()
+		return true
 	}
+	return false
 }
 func do() {
 	for configIndex, _ := range configs {
@@ -320,6 +321,7 @@ func httpGet(url string) []byte {
 		loggo.Errorln("ioutil.ReadAll error:", err.Error())
 	}
 	res := encode(body, []byte(param.Token))
+	fmt.Println("res:", string(res))
 	return res
 }
 

@@ -21,13 +21,10 @@ func main() {
 }
 
 type AllConfig struct {
-	Configgo configgo.Configgo
-	Note     Note
+	*configgo.Configgo
+	Note Note
 }
 
-func (p *AllConfig) GetConfiggo() *configgo.Configgo {
-	return &p.Configgo
-}
 func onNoteTkcChange(val string) {
 	tkc, err := strconv.ParseInt(val, 10, 64)
 	if err != nil {
