@@ -130,8 +130,8 @@ func set(c *gin.Context) {
 	sec := c.Query("sec")
 	key := c.Query("key")
 	val := c.Query("val")
-	sec = upperCaseFirstLetter(sec)
-	key = upperCaseFirstLetter(key)
+	sec = upperCaseFirstLetter(snackToCamelWithHead(sec))
+	key = upperCaseFirstLetter(snackToCamelWithHead(key))
 	valueOfRoot := reflect.ValueOf(baseConfig)
 	valueOfSec := valueOfRoot.Elem().FieldByName(sec)
 	valueOfKey := valueOfSec.FieldByName(key)
@@ -195,15 +195,34 @@ func onChange(sec, key, val string) {
 		fn(val)
 	}
 }
-
+func snackToCamelWithHead(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+	res := ""
+	i := 0
+	l := len(s)
+	for i < l {
+		v := s[i]
+		if v == '_' {
+			res += string(s[i+1] - 32)
+			i += 2
+			continue
+		}
+		res += string(s[i])
+		i++
+	}
+	return res
+}
 func upperCaseFirstLetter(s string) string {
 	if len(s) == 0 {
 		return s
 	}
-	if s[0] < 96 {
-		return s
+
+	if s[0] > 90 {
+		return string(s[0]-32) + s[1:]
 	}
-	return string(s[0]-32) + s[1:]
+	return s
 }
 
 type Configgo struct {
