@@ -48,7 +48,7 @@ func LoadConfig(bc interface{}, source string, serveAddr string) {
 	baseConfig = configgo.Interface().(*Configgo)
 	checkConfig()
 	fmt.Printf("config node name:%+v\n", baseConfig.Name)
-	startApi(serveAddr)
+	go startAPI(serveAddr)
 }
 func initConfig(bc interface{}, path string) {
 	cfg := ini.Empty()
@@ -67,7 +67,7 @@ func checkConfig() bool {
 	return true
 }
 
-func startApi(addr string) {
+func startAPI(addr string) {
 	g := gin.New()
 	g.Use(gin.Recovery(), gin.Logger(), validPassword())
 	g.GET("/get", get)
