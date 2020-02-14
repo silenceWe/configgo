@@ -14,6 +14,7 @@ import (
 	"os"
 	"reflect"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -29,7 +30,13 @@ func LoadConfig(bc interface{}, source string, serveAddr string) {
 	filePath = source
 	cfg, err = ini.Load(source)
 	if err != nil {
-		panic("load error:" + err.Error())
+		if strings.Contains(err.Error(), "no such file or directory") {
+			fmt.Println(err.Error())
+			fmt.Println("Try to create default config file")
+			initConfig(bc, source)
+			fmt.Println("Create default success!")
+			return
+		}
 	}
 
 	cfg.NameMapper = ini.TitleUnderscore
@@ -43,7 +50,11 @@ func LoadConfig(bc interface{}, source string, serveAddr string) {
 	fmt.Printf("config node name:%+v\n", baseConfig.Name)
 	startApi(serveAddr)
 }
-
+func initConfig(bc interface{}, path string) {
+	cfg := ini.Empty()
+	ini.ReflectFrom(cfg, bc)
+	cfg.SaveTo(path)
+}
 func checkConfig() bool {
 	if baseConfig.Password == "" {
 		fmt.Println("Please set the config password")
