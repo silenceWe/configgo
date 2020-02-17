@@ -73,6 +73,8 @@ func startAPI() {
 	g.GET("/get", get)
 	g.GET("/set", set)
 
+	fmt.Println("Start API at :", baseConfig.Addr)
+
 	srv := &http.Server{
 		Addr:              baseConfig.Addr,
 		ReadTimeout:       30 * time.Second,
