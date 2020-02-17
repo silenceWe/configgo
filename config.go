@@ -25,7 +25,7 @@ var baseConfig *Configgo
 var cfg *ini.File
 var filePath string
 
-func LoadConfig(bc interface{}, source string, serveAddr string) {
+func LoadConfig(bc interface{}, source string) {
 	var err error
 	filePath = source
 	cfg, err = ini.Load(source)
@@ -48,7 +48,7 @@ func LoadConfig(bc interface{}, source string, serveAddr string) {
 	baseConfig = configgo.Interface().(*Configgo)
 	checkConfig()
 	fmt.Printf("config node name:%+v\n", baseConfig.Name)
-	go startAPI(serveAddr)
+	go startAPI()
 }
 func initConfig(bc interface{}, path string) {
 	cfg := ini.Empty()
@@ -67,14 +67,14 @@ func checkConfig() bool {
 	return true
 }
 
-func startAPI(addr string) {
+func startAPI() {
 	g := gin.New()
 	g.Use(gin.Recovery(), gin.Logger(), validPassword())
 	g.GET("/get", get)
 	g.GET("/set", set)
 
 	srv := &http.Server{
-		Addr:              addr,
+		Addr:              baseConfig.Addr,
 		ReadTimeout:       30 * time.Second,
 		ReadHeaderTimeout: 10 * time.Second,
 		IdleTimeout:       200 * time.Microsecond,
@@ -229,4 +229,5 @@ type Configgo struct {
 	Name     string
 	Token    string
 	Password string
+	Addr     string
 }
