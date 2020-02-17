@@ -300,8 +300,7 @@ func get(sec, key string) {
 func set(sec, key, val string) {
 	for _, v := range configs {
 		url := fmt.Sprintf("http://%s/set?sec=%s&key=%s&val=%s", v.addr, sec, key, val)
-		res := httpGet(url)
-		fmt.Println("res:", string(res))
+		httpGet(url)
 	}
 }
 
@@ -319,7 +318,6 @@ func httpGet(url string) []byte {
 		loggo.Errorln("ioutil.ReadAll error:", err.Error())
 	}
 	res := encode(body, []byte(param.Token))
-	fmt.Println("res:", string(res))
 	return res
 }
 

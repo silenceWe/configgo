@@ -56,6 +56,7 @@ func initConfig(bc interface{}, path string) {
 	cfg.SaveTo(path)
 }
 func checkConfig() bool {
+	fmt.Printf("%+v\n", baseConfig)
 	if baseConfig.Password == "" {
 		fmt.Println("Please set the config password")
 		os.Exit(0)
