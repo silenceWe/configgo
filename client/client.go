@@ -14,7 +14,6 @@ import (
 
 	"github.com/go-ini/ini"
 	"github.com/silenceWe/configgo"
-	"github.com/silenceWe/loggo"
 )
 
 const (
@@ -35,7 +34,6 @@ func main() {
 	flag.StringVar(&sec, "sec", "", "section")
 	flag.Parse()
 
-	loggo.InitDefaultLog(&loggo.LoggerOption{StdOut: true, Level: loggo.ALL})
 	switch o {
 	case "init":
 		buildTemplate(f)
@@ -105,9 +103,13 @@ func printGet() {
 		rows = append(rows, row)
 	}
 
-	loggo.Infoln("Nodes:")
+	fmt.Println("Nodes:")
 	configgo.PrintTable(head, rows)
 	fmt.Println("Section:", param.Operations.Sec)
+	if param.Operations.Sec == "configgo"{
+		fmt.Println("Sorry, Cannot access this section")
+		os.Exit(0)
+	}
 	get(param.Operations.Sec, "")
 }
 func printSet() bool {
@@ -119,7 +121,7 @@ func printSet() bool {
 		v = strings.Replace(v, " ", "", -1)
 		parts := strings.Split(v, KV_SEPARATOR)
 		if len(parts) != 2 {
-			loggo.Errorln("set format error. example : 'set = tkc -> 1'")
+			fmt.Errorf("set format error. example : %s\n","'set = tkc -> 1'")
 			os.Exit(0)
 		}
 		nodeKeyParts := strings.Split(parts[0], ".")
@@ -213,7 +215,7 @@ func confirm() bool {
 		input, _ = f.ReadString('\n')
 		switch input {
 		case "Y\n":
-			loggo.Infoln("Confirmed")
+			fmt.Println("Confirmed")
 			return true
 		default:
 			fmt.Println("cancel")
@@ -308,14 +310,14 @@ func httpGet(url string) []byte {
 	url += "&p=" + param.Password
 	resp, err := http.Get(url)
 	if err != nil {
-		loggo.Errorln("get error:", err.Error())
+		fmt.Errorf("get error:%v\n", err.Error())
 		os.Exit(0)
 	}
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		loggo.Errorln("ioutil.ReadAll error:", err.Error())
+		fmt.Errorf("ioutil.ReadAll error:%v\n", err.Error())
 	}
 	res := encode(body, []byte(param.Token))
 	return res

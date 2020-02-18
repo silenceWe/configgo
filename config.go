@@ -56,7 +56,6 @@ func initConfig(bc interface{}, path string) {
 	cfg.SaveTo(path)
 }
 func checkConfig() bool {
-	fmt.Printf("%+v\n", baseConfig)
 	if baseConfig.Password == "" {
 		fmt.Println("Please set the config password")
 		os.Exit(0)
@@ -87,7 +86,6 @@ func startAPI() {
 	if err := srv.ListenAndServe(); err != http.ErrServerClosed {
 		panic("listen error:" + err.Error())
 	}
-
 }
 
 func validPassword() gin.HandlerFunc {
