@@ -68,6 +68,7 @@ func checkConfig() bool {
 }
 
 func startAPI() {
+	gin.SetMode(gin.ReleaseMode)
 	g := gin.New()
 	g.Use(gin.Recovery(), gin.Logger(), validPassword())
 	g.GET("/get", get)
