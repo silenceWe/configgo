@@ -20,7 +20,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-ini/ini"
 )
-
+var rootConfig interface{}
 var baseConfig *Configgo
 var cfg *ini.File
 var filePath string
@@ -44,6 +44,7 @@ func LoadConfig(bc interface{}, source string) {
 		panic("Map config error:" + err.Error())
 	}
 
+	rootConfig = bc
 	configgo := reflect.ValueOf(bc).Elem().FieldByName("Configgo")
 	baseConfig = configgo.Interface().(*Configgo)
 	checkConfig()
@@ -134,11 +135,12 @@ func set(c *gin.Context) {
 	val := c.Query("val")
 	sec = upperCaseFirstLetter(snackToCamelWithHead(sec))
 	key = upperCaseFirstLetter(snackToCamelWithHead(key))
-	valueOfRoot := reflect.ValueOf(baseConfig)
+
+	valueOfRoot := reflect.ValueOf(rootConfig)
 	valueOfSec := valueOfRoot.Elem().FieldByName(sec)
 	valueOfKey := valueOfSec.FieldByName(key)
 
-	typeOfRoot := reflect.TypeOf(baseConfig)
+	typeOfRoot := reflect.TypeOf(rootConfig)
 	typeOfSec, found := typeOfRoot.Elem().FieldByName(sec)
 	if !found {
 		c.JSON(400, "section not fount")
@@ -158,7 +160,7 @@ func set(c *gin.Context) {
 		} else {
 			c.JSON(200, "ok")
 		}
-	case "int":
+	case "int","Int8","Int16","Int32","int64":
 		currentVal := valueOfKey.Int()
 		newVal, err := strconv.ParseInt(val, 10, 64)
 		if err != nil {
@@ -169,8 +171,30 @@ func set(c *gin.Context) {
 		} else {
 			c.JSON(200, "ok")
 		}
+	case "Uint","Uint8","Uint16","Uint32","Uint64":
+		currentVal := valueOfKey.Uint()
+		newVal, err := strconv.ParseUint(val, 10, 64)
+		if err != nil {
+			panic("parse int error:" + err.Error())
+		}
+		if currentVal != newVal {
+			valueOfKey.SetUint(newVal)
+		} else {
+			c.JSON(200, "ok")
+		}
+	case "bool":
+		currentVal := valueOfKey.Bool()
+		newVal := false
+		if val == "true"{
+			newVal = true
+		}
+		if currentVal != newVal {
+			valueOfKey.SetBool(newVal)
+		} else {
+			c.JSON(200, "ok")
+		}
 	}
-	err := ini.ReflectFromWithMapper(cfg, baseConfig, ini.TitleUnderscore)
+	err := ini.ReflectFromWithMapper(cfg, rootConfig, ini.TitleUnderscore)
 	if err != nil {
 		log.Println("reflect error:", err.Error())
 	}

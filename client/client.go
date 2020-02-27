@@ -302,6 +302,7 @@ func get(sec, key string) {
 func set(sec, key, val string) {
 	for _, v := range configs {
 		url := fmt.Sprintf("http://%s/set?sec=%s&key=%s&val=%s", v.addr, sec, key, val)
+		fmt.Println("url:",url)
 		httpGet(url)
 	}
 }

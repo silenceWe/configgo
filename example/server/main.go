@@ -18,6 +18,7 @@ func main() {
 	c := AllConfig{}
 	configgo.AddWatcher("note", "tkc", onNoteTkcChange)
 	configgo.LoadConfig(&c, "./cfg_base.ini")
+	select{}
 }
 
 type AllConfig struct {
@@ -52,7 +53,7 @@ func printTk(tkc int64) {
 }
 
 type Note struct {
-	Tkc     int
+	Tkc     int64
 	Content string
-	Cities  []string
+	ReturnSuccess  bool
 }
