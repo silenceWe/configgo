@@ -87,7 +87,8 @@ func PrintTable(head []string, rows [][]string) {
 	printBuf.Reset()
 
 	// print rows
-	for _, row := range rows {
+	rowNum := len(rows)
+	for k, row := range rows {
 		for colIndex, _ := range colMaxWidth {
 			printBuf.WriteString("│")
 			if len(row)-1 >= colIndex {
@@ -100,6 +101,9 @@ func PrintTable(head []string, rows [][]string) {
 		printLine(printBuf.String())
 		printBuf.Reset()
 
+		if k == rowNum-1 {
+			break
+		}
 		for k, v := range colMaxWidth {
 			if k == 0 {
 				printBuf.WriteString("├")

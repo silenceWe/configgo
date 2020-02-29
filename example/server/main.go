@@ -16,17 +16,16 @@ import (
 
 func main() {
 	c := AllConfig{}
-	configgo.LoadConfig(&c, "./cfg_base.ini", ":8080")
-	configgo.AddWatcher("Note.Tkc", onNoteTkcChange)
+	configgo.AddWatcher("note", "tkc", onNoteTkcChange)
+	configgo.LoadConfig(&c, "./cfg_base.ini")
+	select{}
 }
 
 type AllConfig struct {
-	Configgo configgo.Configgo
+	*configgo.Configgo
+	Note Note
 }
 
-func (p *AllConfig) GetConfiggo() *configgo.Configgo {
-	return &p.Configgo
-}
 func onNoteTkcChange(val string) {
 	tkc, err := strconv.ParseInt(val, 10, 64)
 	if err != nil {
@@ -54,7 +53,7 @@ func printTk(tkc int64) {
 }
 
 type Note struct {
-	Tkc     int
+	Tkc     int64
 	Content string
-	Cities  []string
+	ReturnSuccess  bool
 }
