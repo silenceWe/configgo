@@ -106,7 +106,7 @@ func printGet() {
 	fmt.Println("Nodes:")
 	configgo.PrintTable(head, rows)
 	fmt.Println("Section:", param.Operations.Sec)
-	if param.Operations.Sec == "configgo"{
+	if param.Operations.Sec == "configgo" {
 		fmt.Println("Sorry, Cannot access this section")
 		os.Exit(0)
 	}
@@ -121,7 +121,7 @@ func printSet() bool {
 		v = strings.Replace(v, " ", "", -1)
 		parts := strings.Split(v, KV_SEPARATOR)
 		if len(parts) != 2 {
-			fmt.Errorf("set format error. example : %s\n","'set = tkc -> 1'")
+			fmt.Errorf("set format error. example : %s\n", "'set = tkc -> 1'")
 			os.Exit(0)
 		}
 		nodeKeyParts := strings.Split(parts[0], ".")
@@ -135,6 +135,7 @@ func printSet() bool {
 		val := parts[1]
 		if _, ok := headMap[key]; !ok {
 			headMap[key] = true
+			head = append(head, key)
 		}
 
 		if node == "ALL" || node == "all" || node == "All" {
@@ -144,7 +145,6 @@ func printSet() bool {
 					config.change = make(map[string]string)
 				}
 				config.change[key] = val
-				head = append(head, key)
 			}
 		} else {
 			config, ok := nodeMap[node]
@@ -155,7 +155,6 @@ func printSet() bool {
 				config.change = make(map[string]string)
 			}
 			config.change[key] = val
-			head = append(head, key)
 		}
 	}
 
@@ -302,7 +301,7 @@ func get(sec, key string) {
 func set(sec, key, val string) {
 	for _, v := range configs {
 		url := fmt.Sprintf("http://%s/set?sec=%s&key=%s&val=%s", v.addr, sec, key, val)
-		fmt.Println("url:",url)
+		fmt.Println("url:", url)
 		httpGet(url)
 	}
 }
@@ -312,7 +311,7 @@ func httpGet(url string) []byte {
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Errorf("get error:%v\n", err.Error())
-		os.Exit(0)
+		return nil
 	}
 
 	defer resp.Body.Close()
