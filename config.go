@@ -20,12 +20,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-ini/ini"
 )
+
 var rootConfig interface{}
 var baseConfig *Configgo
 var cfg *ini.File
 var filePath string
 
-func LoadConfig(bc interface{}, source string) {
+func LoadConfig(bc interface{}, source string, addr string) {
 	var err error
 	filePath = source
 	cfg, err = ini.Load(source)
@@ -49,7 +50,9 @@ func LoadConfig(bc interface{}, source string) {
 	baseConfig = configgo.Interface().(*Configgo)
 	checkConfig()
 	fmt.Printf("config node name:%+v\n", baseConfig.Name)
-	go startAPI()
+	if addr != "" {
+		go startAPI(addr)
+	}
 }
 func initConfig(bc interface{}, path string) {
 	cfg := ini.Empty()
@@ -68,17 +71,17 @@ func checkConfig() bool {
 	return true
 }
 
-func startAPI() {
+func startAPI(addr string) {
 	gin.SetMode(gin.ReleaseMode)
 	g := gin.New()
 	g.Use(gin.Recovery(), gin.Logger(), validPassword())
 	g.GET("/get", get)
 	g.GET("/set", set)
 
-	fmt.Println("Start API at :", baseConfig.Addr)
+	fmt.Println("Start API at :", addr)
 
 	srv := &http.Server{
-		Addr:              baseConfig.Addr,
+		Addr:              addr,
 		ReadTimeout:       30 * time.Second,
 		ReadHeaderTimeout: 10 * time.Second,
 		IdleTimeout:       200 * time.Microsecond,
@@ -160,7 +163,7 @@ func set(c *gin.Context) {
 		} else {
 			c.JSON(200, "ok")
 		}
-	case "int","Int8","Int16","Int32","int64":
+	case "int", "Int8", "Int16", "Int32", "int64":
 		currentVal := valueOfKey.Int()
 		newVal, err := strconv.ParseInt(val, 10, 64)
 		if err != nil {
@@ -171,7 +174,7 @@ func set(c *gin.Context) {
 		} else {
 			c.JSON(200, "ok")
 		}
-	case "Uint","Uint8","Uint16","Uint32","Uint64":
+	case "Uint", "Uint8", "Uint16", "Uint32", "Uint64":
 		currentVal := valueOfKey.Uint()
 		newVal, err := strconv.ParseUint(val, 10, 64)
 		if err != nil {
@@ -185,7 +188,7 @@ func set(c *gin.Context) {
 	case "bool":
 		currentVal := valueOfKey.Bool()
 		newVal := false
-		if val == "true"{
+		if val == "true" {
 			newVal = true
 		}
 		if currentVal != newVal {
@@ -255,5 +258,4 @@ type Configgo struct {
 	Name     string
 	Token    string
 	Password string
-	Addr     string
 }
